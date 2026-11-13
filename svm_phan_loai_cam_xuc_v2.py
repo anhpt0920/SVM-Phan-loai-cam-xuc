@@ -1,17 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-DE TAI: UNG DUNG MO HINH HOC MAY TRONG NHAN DIEN CAM XUC KHACH HANG
-        TU BINH LUAN BANG THUAT TOAN SVM
-Nhom 9 - Hoc phan Hoc May
 
-Cau truc file nay tuong ung voi muc 3.3 cua bao cao:
-  PHAN A -> 3.3.1. Mo ta du lieu
-  PHAN B -> 3.3.2. Thuat toan cai dat (tien xu ly + TF-IDF + SVM)
-  PHAN C -> 3.3.3. Chuong trinh ung dung (chay thu nghiem + du doan moi)
-
-Yeu cau thu vien:
-    pip install pandas numpy scikit-learn matplotlib seaborn underthesea
-"""
 
 import os
 import re
@@ -25,18 +13,6 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-
-# =====================================================================
-# PHAN A. MO TA DU LIEU  (-> dua vao muc 3.3.1)
-# =====================================================================
-# Du lieu gom 2 cot:
-#   - "comment": noi dung binh luan cua khach hang (van ban tieng Viet)
-#   - "label"  : nhan cam xuc, gom 2 lop: "positive" (tich cuc) va "negative" (tieu cuc)
-#
-# Dung dung quy trinh 3.1.2 trong bao cao: du lieu duoc doc tu file CSV
-# (file nay da duoc thu thap/gan nhan san o buoc truoc, day la file
-# dataset.csv di kem). Neu nhom dung du lieu crawl thuc te tu
-# Shopee/Tiki/Amazon, chi can thay duong dan file ben duoi.
 
 if not os.path.exists("dataset.csv"):
     raise FileNotFoundError(
@@ -60,26 +36,13 @@ print(df["label"].value_counts())
 print(df.head(), "\n")
 
 
-# =====================================================================
-# PHAN B. THUAT TOAN CAI DAT  (-> dua vao muc 3.3.2)
-# =====================================================================
-
-# --- B1. Tien xu ly van ban (day du theo muc 2.5 cua bao cao) ---
 VIETNAMESE_STOPWORDS = {
     "va", "la", "cua", "thi", "nhung", "voi", "rat", "khi", "se",
     "da", "cho", "nay", "mot", "nhu", "neu", "the", "cac", "duoc",
 }
 
 def preprocess_text(text: str) -> str:
-    """Tien xu ly 1 cau binh luan, day du cac buoc theo muc 2.5 bao cao:
-    1) chuan hoa du lieu (chuyen ve dang khong dau cach/ky tu thua)
-    2) chuyen ve chu thuong
-    3) loai bo ky tu dac biet
-    4) loai bo so
-    5) loai bo khoang trang thua
-    6) tach tu (tokenization) bang underthesea -> giong vi du trong bao cao
-       VD: "San pham chat luong tot" -> "San_pham chat_luong tot"
-    7) loai bo tu dung (stopwords)
+ 
     """
     text = text.strip()                                    # B1: chuan hoa so bo
     text = text.lower()                                     # B2: chu thuong
@@ -110,9 +73,6 @@ model = SVC(kernel="linear", C=1.0)
 model.fit(X_train, y_train)
 
 
-# =====================================================================
-# PHAN C. CHUONG TRINH UNG DUNG  (-> dua vao muc 3.3.3)
-# =====================================================================
 
 # --- C1. Du doan tren tap kiem tra va danh gia mo hinh ---
 y_pred = model.predict(X_test)
